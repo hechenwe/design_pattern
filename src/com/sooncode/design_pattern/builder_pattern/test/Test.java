@@ -1,14 +1,11 @@
 package com.sooncode.design_pattern.builder_pattern.test;
 
-import com.sooncode.design_pattern.builder_pattern.ManBuilder;
-import com.sooncode.design_pattern.builder_pattern.Person;
-import com.sooncode.design_pattern.builder_pattern.PersonDirector;
-import com.sooncode.design_pattern.builder_pattern.WomanBuilder;
+import com.sooncode.design_pattern.builder_pattern.computer.BuilderProcess;
+import com.sooncode.design_pattern.builder_pattern.computer.Computer;
 
 public class Test{  
      public static void main(String[] args) {  
-          PersonDirector pd = new PersonDirector();  
-          Person womanPerson = pd.constructPerson(new ManBuilder());  
-          Person manPerson = pd.constructPerson(new WomanBuilder());  
+    	 Computer c =  BuilderProcess.getComputer();
+    	 System.out.println(c.toString());
      }  
 }  
