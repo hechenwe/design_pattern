@@ -10,19 +10,23 @@ import com.sooncode.design_pattern.prototype_pattern.entity.Memory;
 
 public class ComputerPrototype implements Prototype<Computer> {
 
+	private CPUPrototype cpuP = new CPUPrototype();
+	private MainboardPrototype mainboardP = new MainboardPrototype();
+	private MemoryPrototype memoryP = new MemoryPrototype();
+
 	@Override
 	public Computer cloneObject(Computer computer) {
 
-		CPU cpu = new CPUPrototype().cloneObject(computer.getCpu());
+		CPU cpu = cpuP.cloneObject(computer.getCpu());
 		List<Memory> list = null;
 		if (computer.getMemory() != null) {
 			for (Memory m : computer.getMemory()) {
-				Memory mem = new MemoryPrototype().cloneObject(m);
+				Memory mem = memoryP.cloneObject(m);
 				list = new ArrayList<>();
 				list.add(mem);
 			}
 		}
-		Mainboard mb = new MainboardPrototype().cloneObject(computer.getMainboard());
+		Mainboard mb = mainboardP.cloneObject(computer.getMainboard());
 		Computer c = new Computer();
 		c.setCpu(cpu);
 		c.setMainboard(mb);
