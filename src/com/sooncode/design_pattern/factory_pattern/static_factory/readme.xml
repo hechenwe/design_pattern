@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<text>
+                               静态方法  - 工厂模式 : 
+                               
+ 
+
+1. 定义一个 工厂方法 返回值 需要的     接口  :
+
+public interface Sender {  
+    public void Send();  
+}  
+
+2. 定义一个具体的类 实现这个接口 : 
+class MailSender implements Sender { //让包外的 地方无法感知这个类的存在
+
+	private String senderName;
+
+	private Integer size;
+
+	private Boolean bool;
+
+	public MailSender(String senderName, int size, boolean bool) {
+		this.senderName = senderName;
+		this.size = size;
+		this.bool = bool;
+	}
+
+	@Override
+	public void Send() {
+		System.out.println("senderName=" + senderName + ";size=" + size + ";bool=" + bool);
+	}
+}
+
+
+3. 定义一个类似于枚举的类  
+
+public class SenderType   {  //这是唯一可能需要修改的类 
+	private Sender sender;
+	public static final SenderType MAIL_SENDER = new SenderType(new MailSender("MAIL", 1, true));
+	//public static final  SenderType SMS_SENDER  = new SenderType(new MailSender("SMS", 1, true));
+	//public static final  SenderType QQ_SENDER  = new SenderType(new QQSender());
+	
+    Sender getSender() {
+		return sender;
+	}
+	
+	private SenderType(Sender sender) {
+		this.sender = sender;
+	}
+	
+}
+
+
+4.定义工厂类  
+
+public class SenderFactory {
+	public static Sender getSender(SenderType SenderType) {   //静态工厂方法 
+		return SenderType.getSender();
+	}
+}
+
+注: 以上类定义在同一个包中
+
+
+5. 定义测试类  (定义在别的包中)
+
+public class Test {
+	public static void main(String[] args) {
+	 
+		Sender sender = SenderFactory.getSender(SenderType.QQ_SENDER);
+		 
+		sender.Send();
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+</text>
