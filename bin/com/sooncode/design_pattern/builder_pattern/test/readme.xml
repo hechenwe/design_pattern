@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<text>
+                               构建者模式  (Builder)
+
+
+1. 定义简单实体和复合实体 (代表一个复杂的构建过程)
+   (1).CPU 
+   (2).Memory
+   (3).Mainboard 
+   (4).Computer
+
+
+2. 定义构建实体的过程(步骤)的 接口.
+public interface Builder {
+
+	public void builderCPU();
+	public void builderMemory();
+	public void builderMainboard();
+	public Computer builderComputer();
+}
+
+3.定义构建过程类
+public class BuilderProcess {
+
+	public static Computer getComputer() {
+		Builder builder = new DellComputerBuilder();
+		builder.builderMainboard();
+		builder.builderMemory();
+		builder.builderCPU();
+		Computer computer =  builder.builderComputer();
+		return computer;
+	}
+}
+
+4.定义一个类实现"构建过程"接口
+
+public class DellComputerBuilder implements Builder {
+
+	private CPU cpu;
+	private List[Memory] memories;
+	private Mainboard mainboard;
+
+	@Override
+	public void builderCPU() {
+		CPU cpu = new CPU();
+		cpu.setBrand("Intel");
+		cpu.setFrequency(4.0);
+		cpu.setVersion("I7");
+		this.cpu = cpu;
+	}
+
+	@Override
+	public void builderMemory() {
+		 
+		if (this.mainboard != null) {
+			List [Memory]  list = new ArrayList<>();
+			for (int i = 0; i < this.mainboard.getMemorySize(); i++) {
+				Memory m = new Memory();
+				m.setBrand("SAMSUNG");
+				m.setFrequency(1330.0);
+				m.setProducingArea("CHINA");
+				list.add(m);
+			}
+			this.memories = list;
+		}
+	}
+
+	@Override
+	public void builderMainboard() {
+		Mainboard m = new Mainboard();
+		m.setBrand("Dell");
+		m.setMemorySize(6);
+		this.mainboard = m;
+	}
+
+	@Override
+	public Computer builderComputer() {
+		Computer c = new Computer();
+		c.setCpu(this.cpu);
+		c.setMemory(this.memories);
+		c.setMainboard(this.mainboard);
+		return c;
+	}
+
+}
+
+
+5. 定义测试类
+
+public class Test{  
+     public static void main(String[] args) {  
+    	 Computer c =  BuilderProcess.getComputer(new DellComputerBuilder());
+    	 System.out.println(c.toString());
+     }  
+} 
+
+
+
+
+
+</text>
